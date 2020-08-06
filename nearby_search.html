@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Find a Place from Phone Number</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUuXvGlptjs9flmCjwbWUGS8t50ivcRkA&callback=initMap&libraries=places"
+    async defer></script>
+    <script>
+      let map;
+      let service;
+      let infowindow;
+
+      function initMap() {
+        //https://www.google.com/maps/place/Rock+Bottom+Restaurant+%26+Brewery/@37.2889562,-121.936436,17z/data=!3m2!4b1!5s0x808e34c2f425d6cf:0x7edf0a3aadc48fb5!4m5!3m4!1s0x808e34c267c19bd1:0xbbdd27c1eeef1894!8m2!3d37.288952!4d-121.934242
+        const sj = new google.maps.LatLng(37.2889562, -121.936436);
+        infowindow = new google.maps.InfoWindow();
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: sj,
+          zoom: 15
+        });
+        const request = {
+          location: sj,
+          radius: 50,
+          keyword: "mexican"
+        };
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (let i = 0; i < results.length; i++) {
+              createMarker(results[i]);
+            }
+            map.setCenter(results[0].geometry.location);
+          }
+        });
+      }
+
+      function createMarker(place) {
+        const marker = new google.maps.Marker({
+          map,
+          position: place.geometry.location
+        });
+        google.maps.event.addListener(marker, "click", () => {
+          infowindow.setContent(place.name);
+          infowindow.open(map);
+        });
+      }
+    </script>
+  </body>
+</html>

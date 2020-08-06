@@ -28,6 +28,7 @@
       let infowindow;
 
       function initMap() {
+        const sj = new google.maps.LatLng(37.3194582, -121.8446827);
         //https://www.google.com/maps/place/Rock+Bottom+Restaurant+%26+Brewery/@37.2889562,-121.936436,17z/data=!3m2!4b1!5s0x808e34c2f425d6cf:0x7edf0a3aadc48fb5!4m5!3m4!1s0x808e34c267c19bd1:0xbbdd27c1eeef1894!8m2!3d37.288952!4d-121.934242
         const sw = new google.maps.LatLng(37.2889562, -121.936436);
         //https://www.google.com/maps/place/Santa+Clara+Valley+Medical+Center/@37.2990384,-121.946389,14.53z/data=!4m5!3m4!1s0x808fcb31a15c82e7:0xe0b9c0efbba8a5c0!8m2!3d37.313494!4d-121.9335061
@@ -37,7 +38,7 @@
         bounds.extend(ne);
         infowindow = new google.maps.InfoWindow();
         map = new google.maps.Map(document.getElementById("map"), {
-          center: bounds,
+          center: sj,
           zoom: 15
         });
         const request = {
